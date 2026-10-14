@@ -1,0 +1,9 @@
+# Challenge data is not redistributed; download it from the OpenSky bucket.
+data/
+outputs/
+*.parquet
+*.log
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
