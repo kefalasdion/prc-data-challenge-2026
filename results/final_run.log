@@ -1,0 +1,525 @@
+
+#### CELL 1 START
+ROOT: $PRC_ROOT
+Data directory: $PRC_ROOT/data/raw
+Output directory: $PRC_ROOT/outputs
+RUN_DECEMBER: False
+RUN_FINAL: True
+RUN_PEER_MISSING_BRANCH: True
+RUN_PEER_MISSING_AUDIT: False
+RUN_MISSING_BRANCH: False
+LightGBM version: 4.7.0
+[RAM] after setup: used=11.57 GB / 16.00 GB, available=4.43 GB
+
+#### CELL 2 START
+Using existing raw files: $PRC_ROOT/data/raw
+
+Available parquet files:
+  final_ranking.parquet                                   81.88 MiB
+  final_submitting.parquet                                 2.86 MiB
+  ranking.parquet                                         41.55 MiB
+  submitting.parquet                                       1.60 MiB
+  training_2025-01-01_2025-02-01.parquet                  20.24 MiB
+  training_2025-02-01_2025-03-01.parquet                  18.91 MiB
+  training_2025-03-01_2025-04-01.parquet                  21.56 MiB
+  training_2025-04-01_2025-05-01.parquet                  22.74 MiB
+  training_2025-05-01_2025-06-01.parquet                  24.02 MiB
+  training_2025-06-01_2025-07-01.parquet                  23.83 MiB
+  training_2025-07-01_2025-08-01.parquet                  24.81 MiB
+  training_2025-08-01_2025-09-01.parquet                  24.77 MiB
+  training_2025-09-01_2025-10-01.parquet                  23.94 MiB
+  training_2025-10-01_2025-11-01.parquet                  24.22 MiB
+  training_2025-11-01_2025-12-01.parquet                  21.15 MiB
+  training_2025-12-01_2026-01-01.parquet                  21.60 MiB
+
+#### CELL 3 START
+✓ FINAL stage files detected.
+Ranking file : final_ranking.parquet
+Template file: final_submitting.parquet
+Official output filename: enthusiastic-yawn_final.parquet
+
+#### CELL 4 START
+01/12 training_2025-01-01_2025-02-01.parquet: 307,257 movements
+02/12 training_2025-02-01_2025-03-01.parquet: 287,411 movements
+03/12 training_2025-03-01_2025-04-01.parquet: 328,622 movements
+04/12 training_2025-04-01_2025-05-01.parquet: 350,288 movements
+05/12 training_2025-05-01_2025-06-01.parquet: 370,105 movements
+06/12 training_2025-06-01_2025-07-01.parquet: 365,986 movements
+07/12 training_2025-07-01_2025-08-01.parquet: 381,161 movements
+08/12 training_2025-08-01_2025-09-01.parquet: 382,047 movements
+09/12 training_2025-09-01_2025-10-01.parquet: 367,679 movements
+10/12 training_2025-10-01_2025-11-01.parquet: 371,163 movements
+11/12 training_2025-11-01_2025-12-01.parquet: 324,530 movements
+12/12 training_2025-12-01_2026-01-01.parquet: 331,548 movements
+
+Training movements: 4,167,797
+Ranking movements : 1,341,197
+Template rows     : 670,790
+
+#### CELL 5 START
+Building 2025 traffic context...
+Building ranking traffic context...
+✓ V17 traffic context built.
+
+#### CELL 7 START
+✓ V17 queue/temporal graph helpers defined.
+
+#### CELL 8 START
+Training departures: 2,085,047
+Ranking departures : 670,790
+count    2.085047e+06
+mean     9.912007e+02
+std      5.463598e+02
+min     -1.200000e+01
+0.1%     1.190000e+02
+1%       2.910000e+02
+5%       4.800000e+02
+50%      9.120000e+02
+95%      1.684000e+03
+99%      2.339000e+03
+99.9%    4.501000e+03
+max      1.311670e+05
+Name: TAXITIME_SEC_mvt, dtype: float64
+
+#### CELL 9 START
+Adding dynamic graph features to 2025 departures...
+  airport temporal/queue graph...
+  runway temporal/queue graph...
+Adding dynamic graph features to ranking departures...
+  airport temporal/queue graph...
+  runway temporal/queue graph...
+✓ Dynamic graph features: 95
+Train departure shape: (2085047, 157)
+Ranking departure shape: (670790, 157)
+[RAM] before releasing full movement tables: used=12.38 GB / 16.00 GB, available=3.62 GB
+[RAM] after releasing full movement tables: used=11.83 GB / 16.00 GB, available=4.17 GB
+
+#### CELL 11 START
+
+#### CELL 12 START
+
+#### CELL 14 START
+
+#### CELL 15 START
+
+#### CELL 16 START
+Development train: 1,571,364
+October validation: 185,674
+Static graph: 1,081 nodes, 15,058 edges, dim=8
+Static graph explained SVD variance: 0.499
+✓ General historical priors added (fallback only; excluded from CatBoost).
+✓ Static SVD g_* graph features restored.
+✓ Dynamic tg_* temporal graph features retained.
+
+#### CELL 17 START
+Missing-anchor training rows: 17,552
+NM baseline availability — train: 98.88%
+NM baseline availability — valid: 98.97%
+[RAM] after NM masks and fallback candidates: used=12.44 GB / 16.00 GB, available=3.56 GB
+
+#### CELL 19 START
+[RAM] start V17 matrix workflow: used=12.44 GB / 16.00 GB, available=3.56 GB
+
+=== V17 AUGMENTED PEER-IMPUTED MISSING BRANCH ===
+
+Training V17 augmented peer-correction LightGBM...
+Training until validation scores don't improve for 100 rounds
+[100]	valid_0's rmse: 1096.55
+Early stopping, best iteration is:
+[81]	valid_0's rmse: 1085.28
+
+=== V17 RAW MISSING CANDIDATES ===
+                       candidate     rmse_sec     mae_sec
+1  peer_corrected_augmented_lgbm  1085.282796  417.826806
+2               historical_50_50  1283.012727  487.083057
+0             peer_pseudo_anchor  1560.053547  541.518819
+
+=== BEST V17 MISSING BLENDS ===
+     w_corrected  w_peer_raw  w_hist  clip_max     rmse_sec     mae_sec
+900         0.90        0.00    0.10       NaN  1081.696009  416.647043
+884         0.85        0.00    0.15       NaN  1082.002808  417.031856
+912         0.95        0.00    0.05       NaN  1082.790752  416.770455
+864         0.80        0.00    0.20       NaN  1083.709958  417.733444
+904         0.90        0.05    0.05       NaN  1084.438186  417.892609
+888         0.85        0.05    0.10       NaN  1084.773283  418.070810
+920         1.00        0.00    0.00       NaN  1085.282796  417.826806
+916         0.95        0.05    0.00       NaN  1085.501109  418.209669
+868         0.80        0.05    0.15       NaN  1086.505108  418.699368
+840         0.75        0.00    0.25       NaN  1086.810860  419.018037
+908         0.90        0.10    0.00       NaN  1088.736347  419.923021
+892         0.85        0.10    0.05       NaN  1089.099081  419.901437
+844         0.75        0.05    0.20       NaN  1089.627001  419.980443
+872         0.80        0.10    0.10       NaN  1090.852951  420.256054
+812         0.70        0.00    0.30       NaN  1091.293634  420.632456
+848         0.75        0.10    0.15       NaN  1093.991266  421.302365
+816         0.70        0.05    0.25       NaN  1094.127063  421.427670
+896         0.85        0.15    0.00       NaN  1094.961767  422.299963
+876         0.80        0.15    0.05       NaN  1096.735019  422.430432
+780         0.65        0.00    0.35       NaN  1097.141341  422.514289
+Best peer config: {'w_corrected': 0.9, 'w_peer_raw': 0.0, 'w_hist': 0.09999999999999998, 'clip_max': None, 'rmse_sec': 1081.6960090132459, 'mae_sec': 416.6470433143648}
+Peer model fixed iterations: 81
+Peer missing RMSE: 1081.696 sec
+Gain vs frozen V9: -193.098 sec
+V17 augmented peer branch did not beat the frozen V9 benchmark on October. Validation overall keeps frozen V9 metrics, but production can still generate row-level missing predictions.
+[RAM] after V17 augmented missing branch: used=13.01 GB / 16.00 GB, available=2.99 GB
+V17 known-anchor ensemble matrix: 1,553,812 rows × 211 features
+  categorical: 26
+  numeric:     185
+[RAM] known-anchor matrix ready: used=10.95 GB / 16.00 GB, available=5.05 GB
+
+#### CELL 20 START
+
+Converting categoricals for LightGBM...
+[RAM] after V17.2 categorical conversion: used=11.05 GB / 16.00 GB, available=4.95 GB
+
+=== TRAIN SINGLE V17.2 LIGHTGBM ===
+Maximum trees: 1200
+[RAM] before single LightGBM: used=11.05 GB / 16.00 GB, available=4.95 GB
+Training until validation scores don't improve for 100 rounds
+[100]	valid_0's rmse: 246.348
+[200]	valid_0's rmse: 233.553
+[300]	valid_0's rmse: 229.616
+[400]	valid_0's rmse: 227.465
+[500]	valid_0's rmse: 226.357
+[600]	valid_0's rmse: 225.626
+[700]	valid_0's rmse: 225.157
+[800]	valid_0's rmse: 224.9
+[900]	valid_0's rmse: 224.723
+[1000]	valid_0's rmse: 224.623
+[1100]	valid_0's rmse: 224.581
+[1200]	valid_0's rmse: 224.542
+Did not meet early stopping. Best iteration is:
+[1195]	valid_0's rmse: 224.537
+
+Single LightGBM residual RMSE: 224.537 sec
+Single LightGBM residual MAE : 144.875 sec
+Best iteration: 1195
+
+Top V17.2 gain features:
+                         feature          gain
+0           aobt_minus_sched_min  8.396101e+11
+1                  nm_anchor_sec  7.912079e+11
+2              cx_airport_runway  3.781615e+11
+3              cx_operator_route  1.531654e+11
+4         cx_operator_route_slot  1.405150e+11
+5           eobt_minus_sched_min  1.224260e+11
+6             cx_operator_runway  1.101842e+11
+7               cx_airport_stand  1.065258e+11
+8        cx_airport_stand_runway  1.060371e+11
+9             cx_operator_flight  8.194116e+10
+10         AIRCRAFT_OPERATOR_flt  7.317376e+10
+11            cx_aircraft_runway  6.449943e+10
+12                     STAND_mvt  5.713646e+10
+13                    RUNWAY_mvt  4.692471e+10
+14          iobt_minus_sched_min  2.758930e+10
+15              cx_flight_number  2.473924e+10
+16           eobt_minus_iobt_min  2.409316e+10
+17          lobt_minus_sched_min  2.397263e+10
+18                   g_runway_04  2.054362e+10
+19              runway_total_15m  1.457386e+10
+20        tg_runway_next_gap_sec  1.291046e+10
+21             AIRCRAFT_TYPE_mvt  1.127714e+10
+22             AIRCRAFT_TYPE_flt  9.193393e+09
+23           lobt_minus_iobt_min  8.294938e+09
+24              cx_operator_code  7.920669e+09
+25        tg_runway_prev_gap_sec  6.016263e+09
+26                  g_airport_00  5.854129e+09
+27                      ADEP_mvt  5.681380e+09
+28                      ADES_mvt  5.299066e+09
+29                      ADEP_flt  5.245471e+09
+30                    sched_week  5.004834e+09
+31                      ADES_flt  4.800061e+09
+32            tg_airport_arr_10m  4.211772e+09
+33                  g_airport_05  4.172506e+09
+34  tg_runway_prev_gap_mean3_sec  3.944814e+09
+35                ADES_FILED_flt  3.942899e+09
+36     tg_airport_future_arr_10m  3.671038e+09
+37            tg_airport_deg_15m  3.552652e+09
+38   tg_runway_prev_gap_std5_sec  3.094222e+09
+39        nm_match_aircraft_type  2.706191e+09
+40            MARKET_SEGMENT_flt  2.695267e+09
+41       tg_airport_past_arr_10m  2.438876e+09
+42              g_destination_07  2.405615e+09
+43                  g_airport_01  2.325577e+09
+44    tg_airport_exp_past_tau900  2.212419e+09
+45                   g_runway_06  2.068848e+09
+46                  g_airport_04  1.960973e+09
+47                  g_airport_06  1.922340e+09
+48                sched_slot_15m  1.499986e+09
+49    tg_runway_prev_arr_gap_sec  1.464593e+09
+50               airport_dep_15m  1.417753e+09
+51     tg_airport_future_dep_10m  1.401073e+09
+52                runway_dep_15m  1.377557e+09
+53             tg_airport_arr_5m  1.355245e+09
+54               FLIGHT_TYPE_flt  1.291713e+09
+55         tg_airport_future_10m  1.231445e+09
+56  tg_airport_exp_degree_tau900  1.206319e+09
+57  tg_airport_exp_degree_tau300  1.179789e+09
+58                   sched_month  1.158353e+09
+59        tg_airport_past_arr_5m  1.119112e+09
+
+=== V17.2 RESIDUAL ALIGNMENT CHECK ===
+Residual-space RMSE      : 224.537303661
+Reconstructed taxi RMSE : 224.537303661
+Absolute difference      : 0.000000000000
+
+====================================================
+V17.2 FINAL ONE-RUN RESULTS
+====================================================
+Residual RMSE       : 224.537 sec
+Known-anchor RMSE   : 223.888 sec
+Known-anchor MAE    : 144.788 sec
+Missing RMSE        : 888.598 sec
+Overall RMSE        : 240.301 sec
+Overall MAE         : 147.225 sec
+Missing share       : 1.030%
+Missing branch      : frozen_v9
+Main LGB iterations : 1195
+Overall metric mode : frozen_v9 missing metrics
+Known gain vs V9: +3.161 sec
+Overall gain vs V9: +2.918 sec
+
+#### CELL 21 START
+October validation rows: 185,674
+Known-anchor rows: 183,761
+Missing-anchor rows: 1,913
+
+Known-anchor RMSE: 223.888 sec
+Known-anchor MAE : 144.788 sec
+Active missing benchmark RMSE: 888.598 sec
+Overall RMSE: 240.301 sec
+
+Row-level full validation vector is unavailable because the frozen V9 missing benchmark has metrics but no current row-level predictions.
+
+#### CELL 22 START
+Single LightGBM residual RMSE: 224.537 sec
+Single LightGBM iterations: 1195
+
+Top V17.2 gain features:
+                         feature          gain
+0           aobt_minus_sched_min  8.396101e+11
+1                  nm_anchor_sec  7.912079e+11
+2              cx_airport_runway  3.781615e+11
+3              cx_operator_route  1.531654e+11
+4         cx_operator_route_slot  1.405150e+11
+5           eobt_minus_sched_min  1.224260e+11
+6             cx_operator_runway  1.101842e+11
+7               cx_airport_stand  1.065258e+11
+8        cx_airport_stand_runway  1.060371e+11
+9             cx_operator_flight  8.194116e+10
+10         AIRCRAFT_OPERATOR_flt  7.317376e+10
+11            cx_aircraft_runway  6.449943e+10
+12                     STAND_mvt  5.713646e+10
+13                    RUNWAY_mvt  4.692471e+10
+14          iobt_minus_sched_min  2.758930e+10
+15              cx_flight_number  2.473924e+10
+16           eobt_minus_iobt_min  2.409316e+10
+17          lobt_minus_sched_min  2.397263e+10
+18                   g_runway_04  2.054362e+10
+19              runway_total_15m  1.457386e+10
+20        tg_runway_next_gap_sec  1.291046e+10
+21             AIRCRAFT_TYPE_mvt  1.127714e+10
+22             AIRCRAFT_TYPE_flt  9.193393e+09
+23           lobt_minus_iobt_min  8.294938e+09
+24              cx_operator_code  7.920669e+09
+25        tg_runway_prev_gap_sec  6.016263e+09
+26                  g_airport_00  5.854129e+09
+27                      ADEP_mvt  5.681380e+09
+28                      ADES_mvt  5.299066e+09
+29                      ADEP_flt  5.245471e+09
+30                    sched_week  5.004834e+09
+31                      ADES_flt  4.800061e+09
+32            tg_airport_arr_10m  4.211772e+09
+33                  g_airport_05  4.172506e+09
+34  tg_runway_prev_gap_mean3_sec  3.944814e+09
+35                ADES_FILED_flt  3.942899e+09
+36     tg_airport_future_arr_10m  3.671038e+09
+37            tg_airport_deg_15m  3.552652e+09
+38   tg_runway_prev_gap_std5_sec  3.094222e+09
+39        nm_match_aircraft_type  2.706191e+09
+40            MARKET_SEGMENT_flt  2.695267e+09
+41       tg_airport_past_arr_10m  2.438876e+09
+42              g_destination_07  2.405615e+09
+43                  g_airport_01  2.325577e+09
+44    tg_airport_exp_past_tau900  2.212419e+09
+45                   g_runway_06  2.068848e+09
+46                  g_airport_04  1.960973e+09
+47                  g_airport_06  1.922340e+09
+48                sched_slot_15m  1.499986e+09
+49    tg_runway_prev_arr_gap_sec  1.464593e+09
+50               airport_dep_15m  1.417753e+09
+51     tg_airport_future_dep_10m  1.401073e+09
+52                runway_dep_15m  1.377557e+09
+53             tg_airport_arr_5m  1.355245e+09
+54               FLIGHT_TYPE_flt  1.291713e+09
+55         tg_airport_future_10m  1.231445e+09
+56  tg_airport_exp_degree_tau900  1.206319e+09
+57  tg_airport_exp_degree_tau300  1.179789e+09
+58                   sched_month  1.158353e+09
+59        tg_airport_past_arr_5m  1.119112e+09
+
+NM anchor-source diagnostics:
+  anchor_source    rows  anchor_only_rmse  corrected_rmse
+0          AOBT  183761        391.377971      224.537304
+
+Active missing branch: frozen_v9
+Active missing RMSE: 888.5981276385777
+                       candidate     rmse_sec     mae_sec
+1  peer_corrected_augmented_lgbm  1085.282796  417.826806
+2               historical_50_50  1283.012727  487.083057
+0             peer_pseudo_anchor  1560.053547  541.518819
+     w_corrected  w_peer_raw  w_hist  clip_max     rmse_sec     mae_sec
+900         0.90        0.00    0.10       NaN  1081.696009  416.647043
+884         0.85        0.00    0.15       NaN  1082.002808  417.031856
+912         0.95        0.00    0.05       NaN  1082.790752  416.770455
+864         0.80        0.00    0.20       NaN  1083.709958  417.733444
+904         0.90        0.05    0.05       NaN  1084.438186  417.892609
+888         0.85        0.05    0.10       NaN  1084.773283  418.070810
+920         1.00        0.00    0.00       NaN  1085.282796  417.826806
+916         0.95        0.05    0.00       NaN  1085.501109  418.209669
+868         0.80        0.05    0.15       NaN  1086.505108  418.699368
+840         0.75        0.00    0.25       NaN  1086.810860  419.018037
+908         0.90        0.10    0.00       NaN  1088.736347  419.923021
+892         0.85        0.10    0.05       NaN  1089.099081  419.901437
+844         0.75        0.05    0.20       NaN  1089.627001  419.980443
+872         0.80        0.10    0.10       NaN  1090.852951  420.256054
+812         0.70        0.00    0.30       NaN  1091.293634  420.632456
+
+#### CELL 23 START
+Main LightGBM max iterations: 1200
+Main LightGBM selected iterations: 1195
+Missing LightGBM selected iterations: 81
+Best missing blend config: {'w_corrected': 0.9, 'w_peer_raw': 0.0, 'w_hist': 0.09999999999999998, 'clip_max': None, 'rmse_sec': 1081.6960090132459, 'mae_sec': 416.6470433143648}
+Pseudo-missing rows: 120000
+
+#### CELL 25 START
+
+================================================================
+V17.2 FINAL ONE-RUN FULL-2025 PRODUCTION PIPELINE
+================================================================
+[RAM] production start: used=11.55 GB / 16.00 GB, available=4.45 GB
+production load 01/12: training_2025-01-01_2025-02-01.parquet (307,257 rows)
+production load 02/12: training_2025-02-01_2025-03-01.parquet (287,411 rows)
+production load 03/12: training_2025-03-01_2025-04-01.parquet (328,622 rows)
+production load 04/12: training_2025-04-01_2025-05-01.parquet (350,288 rows)
+production load 05/12: training_2025-05-01_2025-06-01.parquet (370,105 rows)
+production load 06/12: training_2025-06-01_2025-07-01.parquet (365,986 rows)
+production load 07/12: training_2025-07-01_2025-08-01.parquet (381,161 rows)
+production load 08/12: training_2025-08-01_2025-09-01.parquet (382,047 rows)
+production load 09/12: training_2025-09-01_2025-10-01.parquet (367,679 rows)
+production load 10/12: training_2025-10-01_2025-11-01.parquet (371,163 rows)
+production load 11/12: training_2025-11-01_2025-12-01.parquet (324,530 rows)
+production load 12/12: training_2025-12-01_2026-01-01.parquet (331,548 rows)
+
+Production traffic context...
+Production train departures: 2,085,047
+Production ranking departures: 670,790
+
+Production dynamic queue features...
+  airport temporal/queue graph...
+  runway temporal/queue graph...
+  airport temporal/queue graph...
+  runway temporal/queue graph...
+[RAM] after production dynamic features: used=12.42 GB / 16.00 GB, available=3.58 GB
+Static graph: 1,149 nodes, 16,289 edges, dim=8
+Static graph explained SVD variance: 0.507
+Production ranking NM availability: 98.647%
+
+=== PRODUCTION AUGMENTED MISSING-ANCHOR MODEL ===
+Peer anchor winsorization: {'lo': 297.0, 'hi': 2635.0}
+Peer source rows: 661,713
+Peer target rows: 9,077
+Selected peer levels:
+                      level  rows
+0  airport_runway_date_hour  7672
+1       airport_runway_date  1010
+2         airport_date_hour   350
+3              airport_date    45
+Production missing predictions: 9,077
+[RAM] after production missing model: used=12.67 GB / 16.00 GB, available=3.33 GB
+
+=== PRODUCTION KNOWN-ANCHOR SINGLE LIGHTGBM ===
+[RAM] production known matrix ready: used=12.73 GB / 16.00 GB, available=3.27 GB
+
+Training ONE production LightGBM...
+Production main LGB iterations: 1195
+
+================================================================
+V17 PRODUCTION PREDICTIONS READY
+================================================================
+Ranking rows       : 670,790
+Known-anchor rows  : 661,713
+Missing-anchor rows: 9,077
+Prediction min/max : 0.0 / 86040.0
+count    670790.000000
+mean       1011.079042
+std         429.223176
+min           0.000000
+0.1%        210.839486
+1%          380.328130
+5%          544.419717
+50%         947.775042
+95%        1637.504808
+99%        2246.923444
+99.9%      4358.015734
+max       86040.022320
+Name: prediction, dtype: float64
+[RAM] production complete: used=10.45 GB / 16.00 GB, available=5.55 GB
+
+#### CELL 27 START
+✓ rank_pred valid: 670,790 rows
+
+#### CELL 28 START
+✓ OFFICIAL SUBMISSION VALIDATION PASSED
+Rows: 670,790
+Columns: ['MVT_ID_mvt', 'TAXITIME_SEC_mvt']
+    MVT_ID_mvt  TAXITIME_SEC_mvt
+0  202501153.0       1096.196777
+1  202501107.0        935.049561
+2  202501179.0        606.210022
+3  202501178.0        746.613403
+4  202501174.0        754.580811
+
+#### CELL 29 START
+✓ exact_columns
+✓ exact_row_count
+✓ exact_id_order
+✓ unique_ids
+✓ all_predictions_present
+✓ all_predictions_finite
+✓ Structurally ready for challenge submission.
+
+#### CELL 30 START
+================================================
+OFFICIAL SUBMISSION FILE READY
+================================================
+Stage: FINAL
+Filename: enthusiastic-yawn_final.parquet
+Path: $PRC_ROOT/outputs/enthusiastic-yawn_final.parquet
+Rows: 670,790
+Size: 5.96 MiB
+✓ Reload validation passed.
+
+#### CELL 31 START
+
+============================================================
+SUBMISSION ARTIFACT GENERATED
+============================================================
+Team name        : enthusiastic-yawn
+Stage            : FINAL
+Filename         : enthusiastic-yawn_final.parquet
+Local file path  : $PRC_ROOT/outputs/enthusiastic-yawn_final.parquet
+Submission bucket: prc-2026-enthusiastic-yawn
+Rows             : 670,790
+Columns          : ['MVT_ID_mvt', 'TAXITIME_SEC_mvt']
+File size        : 5.96 MiB
+
+Upload this exact file to your OpenSky bucket:
+  bucket : prc-2026-enthusiastic-yawn
+  file   : enthusiastic-yawn_final.parquet
+
+✓ FINAL RUN COMPLETE — submission file is ready.
+
+Colab download helper unavailable.
+Use the local file path shown above.
+EXIT 0

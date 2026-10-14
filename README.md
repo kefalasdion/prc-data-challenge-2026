@@ -90,6 +90,13 @@ prints RAM usage at each major step.
 the template's row count and ID order, unique IDs and finite predictions. It then reads the
 saved file back and checks it again.
 
+## Results
+
+October 2025 validation RMSE is 240.3 s overall and 223.9 s on departures with an NM anchor.
+[`results/SUBMISSION.md`](results/SUBMISSION.md) records the final submission (checksum, upload
+time, validation table). [`results/final_run.log`](results/final_run.log) is the full log of
+the run that produced it.
+
 ## Reproducibility
 
 - Base seed `SEED = 42`. Every model seed is a fixed offset from it.
